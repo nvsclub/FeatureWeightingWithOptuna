@@ -321,6 +321,7 @@ for cycle_id in range(n_iterations):
             
             if (cycle_id, dataset_id) in already_processed:
                 continue
+            print(dataset_id)
 
             # Write changes from previous cycle to disk
             saver.close()
