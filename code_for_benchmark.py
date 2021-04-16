@@ -304,13 +304,13 @@ from glob import glob
 clf_datasets = [ds for ds in glob('data/standardized/*.csv') if 'c_' in ds ]
 
 # Results saver
-#saver = open('results/openml_scores.csv', 'w')
+#saver = open('results/scores.csv', 'w')
 #saver.write('cycle,task,method,instances,features,classes,accuracy,f1,optimization_time,prediction_time,no_features,best_trial\n')
 #saver.close()
-saver = open('results/openml_scores.csv', 'a')
+saver = open('results/scores.csv', 'a')
 
 # Check if process already occurred
-psdf = pd.read_csv('results/openml_scores.csv')
+psdf = pd.read_csv('results/scores.csv')
 already_processed = []
 for _, row in psdf.iterrows():
     already_processed.append((row.cycle, row.task))
@@ -325,7 +325,7 @@ for cycle_id in range(n_iterations):
 
             # Write changes from previous cycle to disk
             saver.close()
-            saver = open('results/openml_scores.csv', 'a')
+            saver = open('results/scores.csv', 'a')
             
             # Load dataset
             df = pd.read_csv(dataset_id)
