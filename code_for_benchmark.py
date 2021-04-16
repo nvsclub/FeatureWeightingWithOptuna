@@ -369,9 +369,9 @@ for cycle_id in range(n_iterations):
                 ## Test (no filter)
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, dataset_features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},baseline,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(dataset_features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Baseline,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(dataset_features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},baseline,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Baseline,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
 
             # Intercorrelation filter
@@ -383,15 +383,15 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},intercorrelation_filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Intercorrelation Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
                 ## Test weighting
                 t1 = time()
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features, weights = weight_dict)
                 t_predict = time() - t1
-                saver.write(f'{cycle_id},{dataset_id},correlation_weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Correlation Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},intercorrelation_filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
-                saver.write(f'{cycle_id},{dataset_id},correlation_weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Intercorrelation Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Correlation Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Tree based filter
             try:
@@ -402,15 +402,15 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},tree_based_filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Tree Based Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
                 ## Test weighting
                 t1 = time()
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features, weights = weight_dict)
                 t_predict = time() - t1
-                saver.write(f'{cycle_id},{dataset_id},tree_based_weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Tree Based Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},tree_based_filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
-                saver.write(f'{cycle_id},{dataset_id},tree_based_weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Tree Based Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Tree Based Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # l1 filter
             try:
@@ -421,9 +421,9 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},l1filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},L1 Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},l1filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},L1 Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # ReliefF
             try:
@@ -434,15 +434,15 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},relieff,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},ReliefF,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
                 ## Test weighting
                 t1 = time()
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features, weights = weight_dict)
                 t_predict = time() - t1
-                saver.write(f'{cycle_id},{dataset_id},relieff_weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},ReliefF Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},relieff,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
-                saver.write(f'{cycle_id},{dataset_id},relieff_weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},ReliefF,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},ReliefF Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Forward selection
             try:
@@ -453,9 +453,9 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},forward_selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Forward Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},forward_selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Forward Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Backwards selection
             try:
@@ -466,9 +466,9 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},backwards_selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Backwards Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},backwards_selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Backwards Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Step wise selection
             try:
@@ -479,9 +479,9 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},stepwise_selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
+                saver.write(f'{cycle_id},{dataset_id},Stepwise Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},stepwise_selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Stepwise Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Bayesian optimization selection
             try:
@@ -492,9 +492,9 @@ for cycle_id in range(n_iterations):
                 ## Test filter
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, features)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},bayesselection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},{best_trial}\n')
+                saver.write(f'{cycle_id},{dataset_id},Bayesian Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},{best_trial}\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},bayesselection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Bayesian Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Bayesian optimization weighting
             try:
@@ -505,8 +505,8 @@ for cycle_id in range(n_iterations):
                 ## Test weighting
                 performance_acc, performance_f1 = get_validation_result(clf, train_df, test_df, dataset_features, weights = weight_dict)
                 t_predict = time() - t1 - t_optimize
-                saver.write(f'{cycle_id},{dataset_id},bayeswweighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(dataset_features)},{best_trial}\n')
+                saver.write(f'{cycle_id},{dataset_id},Bayesian Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(dataset_features)},{best_trial}\n')
             except:
-                saver.write(f'{cycle_id},{dataset_id},bayeswweighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Bayesian Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
 saver.close()
