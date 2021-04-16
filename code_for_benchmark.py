@@ -330,37 +330,40 @@ for cycle_id in range(n_iterations):
             # Load dataset
             df = pd.read_csv(dataset_id)
 
-            # Drop NaN
-            df = df.dropna(axis = 0)
+            try:
+                # Drop NaN
+                df = df.dropna(axis = 0)
 
-            # Shuffle data
-            df = df.sample(frac=1)
+                # Shuffle data
+                df = df.sample(frac=1)
 
-            # Exclude dataset if removing NaNs substantially reduces data set
-            if len(df) < 100:
-                continue
+                # Exclude dataset if removing NaNs substantially reduces data set
+                if len(df) < 100:
+                    continue
 
-            # Get list of data set features
-            dataset_features = list(df.drop(target_variable, axis = 1)) 
+                # Get list of data set features
+                dataset_features = list(df.drop(target_variable, axis = 1)) 
 
-            # Train&Validation-Test split
-            split_point = int(len(df) * train_test_split)
-            train_df = df.iloc[:split_point]
-            
-            # Normalizing features (mean 0, variance 1)
-            df[dataset_features] = scale(df[dataset_features])
-            train_df[dataset_features] = scale(train_df[dataset_features])
+                # Train&Validation-Test split
+                split_point = int(len(df) * train_test_split)
+                train_df = df.iloc[:split_point]
+                
+                # Normalizing features (mean 0, variance 1)
+                df[dataset_features] = scale(df[dataset_features])
+                train_df[dataset_features] = scale(train_df[dataset_features])
 
-            # Get normalized test data
-            test_df = df.iloc[split_point:]
+                # Get normalized test data
+                test_df = df.iloc[split_point:]
 
-            # Redefine classifier according to data set
-            ## Guaranteeing min_neigbors < n_neighbors < max_neighbors
-            n_neighbors_for_dataset = max(min_neighbors, min(max_neighbors, int(len(df) * neighbor_samples_ratio)))
-            clf = KNeighborsClassifier(n_neighbors = n_neighbors_for_dataset, n_jobs = -1)
-            ## Limiting trials
-            selection_trials = min(int(len(dataset_features) * 20), 400)
-            weighting_trials = min(int(len(dataset_features) * 50), 1000)
+                # Redefine classifier according to data set
+                ## Guaranteeing min_neigbors < n_neighbors < max_neighbors
+                n_neighbors_for_dataset = max(min_neighbors, min(max_neighbors, int(len(df) * neighbor_samples_ratio)))
+                clf = KNeighborsClassifier(n_neighbors = n_neighbors_for_dataset, n_jobs = -1)
+                ## Limiting trials
+                selection_trials = min(int(len(dataset_features) * 20), 400)
+                weighting_trials = min(int(len(dataset_features) * 50), 1000)
+            except:
+                print('Error in preprocessing')
 
             # KNN baseline
             try:
@@ -372,6 +375,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1 - t_optimize
                 saver.write(f'{cycle_id},{dataset_id},Baseline,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(dataset_features)},0\n')
             except:
+                print('Error training Baseline')
                 saver.write(f'{cycle_id},{dataset_id},Baseline,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
 
@@ -391,6 +395,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1
                 saver.write(f'{cycle_id},{dataset_id},Correlation Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
+                print('Error training Correlation')
                 saver.write(f'{cycle_id},{dataset_id},Intercorrelation Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
                 saver.write(f'{cycle_id},{dataset_id},Correlation Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
@@ -410,6 +415,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1
                 saver.write(f'{cycle_id},{dataset_id},Tree Based Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
+                print('Error training Tree')
                 saver.write(f'{cycle_id},{dataset_id},Tree Based Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
                 saver.write(f'{cycle_id},{dataset_id},Tree Based Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
@@ -424,6 +430,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1 - t_optimize
                 saver.write(f'{cycle_id},{dataset_id},L1 Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
+                print('Error training L1')
                 saver.write(f'{cycle_id},{dataset_id},L1 Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # ReliefF
@@ -442,6 +449,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1
                 saver.write(f'{cycle_id},{dataset_id},ReliefF Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
+                print('Error training ReliefF')
                 saver.write(f'{cycle_id},{dataset_id},ReliefF,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
                 saver.write(f'{cycle_id},{dataset_id},ReliefF Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
@@ -456,6 +464,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1 - t_optimize
                 saver.write(f'{cycle_id},{dataset_id},Forward Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
+                print('Error training Forward Selection')
                 saver.write(f'{cycle_id},{dataset_id},Forward Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Backwards selection
@@ -469,6 +478,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1 - t_optimize
                 saver.write(f'{cycle_id},{dataset_id},Backwards Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
+                print('Error training Backwards Selection')
                 saver.write(f'{cycle_id},{dataset_id},Backwards Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Step wise selection
@@ -482,6 +492,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1 - t_optimize
                 saver.write(f'{cycle_id},{dataset_id},Stepwise Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},0\n')
             except:
+                print('Error training Stepwise Selection')
                 saver.write(f'{cycle_id},{dataset_id},Stepwise Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Bayesian optimization selection
@@ -495,6 +506,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1 - t_optimize
                 saver.write(f'{cycle_id},{dataset_id},Bayesian Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(features)},{best_trial}\n')
             except:
+                print('Error training Bayesian Selection')
                 saver.write(f'{cycle_id},{dataset_id},Bayesian Selection,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
             # Bayesian optimization weighting
@@ -508,6 +520,7 @@ for cycle_id in range(n_iterations):
                 t_predict = time() - t1 - t_optimize
                 saver.write(f'{cycle_id},{dataset_id},Bayesian Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},{performance_acc},{performance_f1},{t_optimize},{t_predict},{len(dataset_features)},{best_trial}\n')
             except:
+                print('Error training Bayesian Weighting')
                 saver.write(f'{cycle_id},{dataset_id},Bayesian Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
 saver.close()
