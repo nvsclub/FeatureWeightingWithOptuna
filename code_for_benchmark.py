@@ -34,8 +34,8 @@ from tqdm import tqdm
 # Setup
 target_variable = 'target'
 neighbor_samples_ratio = 0.02
-min_neighbors = 8
-max_neighbors = 56
+min_neighbors = 5
+max_neighbors = 20
 train_validation_split = 0.70
 train_test_split = 0.70
 n_iterations = 25
@@ -338,7 +338,7 @@ for cycle_id in range(n_iterations):
                 df = df.sample(frac=1)
 
                 # Exclude dataset if removing NaNs substantially reduces data set
-                if len(df) < 100:
+                if len(df) < 60:
                     continue
 
                 # Get list of data set features
@@ -360,8 +360,8 @@ for cycle_id in range(n_iterations):
                 n_neighbors_for_dataset = max(min_neighbors, min(max_neighbors, int(len(df) * neighbor_samples_ratio)))
                 clf = KNeighborsClassifier(n_neighbors = n_neighbors_for_dataset, n_jobs = -1)
                 ## Limiting trials
-                selection_trials = min(int(len(dataset_features) * 20), 400)
-                weighting_trials = min(int(len(dataset_features) * 50), 1000)
+                selection_trials = min(int(len(dataset_features) * 40), 400)
+                weighting_trials = min(int(len(dataset_features) * 100), 1000)
             except:
                 print('Error in preprocessing')
 
@@ -379,7 +379,7 @@ for cycle_id in range(n_iterations):
                 saver.write(f'{cycle_id},{dataset_id},Baseline,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
 
 
-            # Intercorrelation filter
+            '''# Intercorrelation filter
             try:
                 ## Train phase
                 t1 = time()
@@ -397,7 +397,7 @@ for cycle_id in range(n_iterations):
             except:
                 print('Error training Correlation')
                 saver.write(f'{cycle_id},{dataset_id},Intercorrelation Filter,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
-                saver.write(f'{cycle_id},{dataset_id},Correlation Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')
+                saver.write(f'{cycle_id},{dataset_id},Correlation Weighting,{len(df)},{len(dataset_features)},{df[target_variable].nunique()},,,,,,0\n')'''
 
             # Tree based filter
             try:
