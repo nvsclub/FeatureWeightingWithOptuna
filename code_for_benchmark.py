@@ -38,7 +38,7 @@ min_neighbors = 8
 max_neighbors = 56
 train_validation_split = 0.70
 train_test_split = 0.70
-n_iterations = 10
+n_iterations = 25
 offset_iterations = 0
 
 # Defining the methods
