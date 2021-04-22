@@ -33,11 +33,11 @@ from tqdm import tqdm
 
 # Setup
 target_variable = 'target'
-neighbor_samples_ratio = 0.02
+neighbor_samples_ratio = 0.05
 min_neighbors = 5
-max_neighbors = 20
-train_validation_split = 0.70
-train_test_split = 0.70
+max_neighbors = 126
+train_validation_split = 0.75
+train_test_split = 0.75
 n_iterations = 25
 offset_iterations = 0
 
@@ -317,11 +317,11 @@ for _, row in psdf.iterrows():
 
 results = []
 for cycle_id in range(n_iterations):
-    for dataset_id in tqdm(clf_datasets):  # iterate over all data sets
+    for dataset_id in clf_datasets:  # iterate over all data sets
             
             if (cycle_id, dataset_id) in already_processed:
                 continue
-            print(dataset_id)
+            print(cycle_id, dataset_id)
 
             # Write changes from previous cycle to disk
             saver.close()
@@ -360,8 +360,8 @@ for cycle_id in range(n_iterations):
                 n_neighbors_for_dataset = max(min_neighbors, min(max_neighbors, int(len(df) * neighbor_samples_ratio)))
                 clf = KNeighborsClassifier(n_neighbors = n_neighbors_for_dataset, n_jobs = -1)
                 ## Limiting trials
-                selection_trials = min(int(len(dataset_features) * 40), 400)
-                weighting_trials = min(int(len(dataset_features) * 100), 1000)
+                selection_trials = 200 #min(int(len(dataset_features) * 40), 400)
+                weighting_trials = 500 #min(int(len(dataset_features) * 100), 1000)
             except:
                 print('Error in preprocessing')
 
