@@ -38,7 +38,7 @@ min_neighbors = 5
 max_neighbors = 126
 train_validation_split = 0.75
 train_test_split = 0.75
-n_iterations = 25
+n_iterations = 10
 offset_iterations = 0
 
 # Defining the methods
@@ -361,7 +361,7 @@ for cycle_id in range(n_iterations):
                 clf = KNeighborsClassifier(n_neighbors = n_neighbors_for_dataset, n_jobs = -1)
                 ## Limiting trials
                 selection_trials = 200 #min(int(len(dataset_features) * 40), 400)
-                weighting_trials = 500 #min(int(len(dataset_features) * 100), 1000)
+                weighting_trials = 5000 #min(int(len(dataset_features) * 100), 1000)
             except:
                 print('Error in preprocessing')
 
